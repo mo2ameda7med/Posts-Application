@@ -53,7 +53,7 @@ const HomePage = () => {
             </Select>
           </div>
         </section>
-        <section className=" py-4 px-4">
+        <section className=" py-4 px-4 bg-gray-300">
           <PostsList />
         </section>
       </main>
