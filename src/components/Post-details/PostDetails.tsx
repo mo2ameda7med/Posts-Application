@@ -39,7 +39,10 @@ const PostDetails = () => {
 
   console.log({ postId });
   return (
-    <div className="bg-gray-300 h-[calc(100vh-120px)] rounded-md overflow-hidden">
+    <div
+      className="bg-gray-100/80
+    0 h-[calc(100vh-120px)] rounded-md overflow-hidden"
+    >
       {isLoading ? (
         <div className="flex items-center justify-center py-10 h-full">
           <Loader2 className="size-9 animate-spin text-blue-400" />
@@ -66,8 +69,8 @@ const PostDetails = () => {
               </p>
             </div>
           </div>
-          <div>
-            <p>{post?.body}</p>
+          <div className="w-full md:w-100 md:px-7">
+            <p className="">{post?.body}</p>
           </div>
         </>
       )}
