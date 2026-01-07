@@ -39,7 +39,7 @@ const PostsList = () => {
   }, [API_BASE_URL, currentPage]);
 
   return (
-    <div className="">
+    <div>
       {isLoading ? (
         <div className="flex items-center justify-center py-10">
           <Loader2 className="size-9 animate-spin text-blue-400" />
@@ -53,23 +53,27 @@ const PostsList = () => {
       )}
 
       {/* Pagination */}
-      <div className="flex items-center justify-between py-2 ">
-        <Button
-          variant={"destructive"}
-          className="cursor-pointer"
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-        >
-          {" "}
-          <MoveLeft /> Previous
-        </Button>
-        <Button
-          variant={"secondary"}
-          className="cursor-pointer"
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-        >
-          Next <MoveRight />
-        </Button>
-      </div>
+      {!isLoading && (
+        <div className="flex items-center justify-between py-2 ">
+          <Button
+            variant={"destructive"}
+            className="cursor-pointer"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
+            {" "}
+            <MoveLeft /> Previous
+          </Button>
+          <Button
+            variant={"secondary"}
+            className="cursor-pointer"
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            disabled={currentPage === 10}
+          >
+            Next <MoveRight />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
