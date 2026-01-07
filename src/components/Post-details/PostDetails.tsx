@@ -69,7 +69,7 @@ const PostDetails = () => {
               </p>
             </div>
           </div>
-          <div className="w-full md:w-100 md:px-7">
+          <div className="w-full md:w-100 px-7">
             <p className="">{post?.body}</p>
           </div>
         </>

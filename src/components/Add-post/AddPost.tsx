@@ -85,7 +85,7 @@ const AddPost = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-full flex flex-col rounded-lg overflow-hidden">
+    <div className="bg-gray-100 h-full flex flex-col rounded-lg overflow-hidden ">
       {/* Header */}
       <header>
         <p className="flex items-center gap-2 px-4 py-3 bg-white shadow">
@@ -95,7 +95,7 @@ const AddPost = () => {
       </header>
 
       {/* Main */}
-      <main className="flex-1 w-3/4 bg-white m-4 rounded-md shadow flex">
+      <main className="flex-1 w-[95%] md:w-3/4 bg-white m-4 mx-auto md:ms-4 rounded-md shadow flex">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 p-6 w-full"
