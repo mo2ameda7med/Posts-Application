@@ -26,7 +26,7 @@ const PostsList = () => {
         const data = await response.json();
         console.log({ data });
         setPosts(data);
-        toast.success("Posts fetched successfully!");
+        // toast.success("Posts fetched successfully!");
       } catch (error) {
         console.error("Error fetching posts:", error);
         toast.error("Failed to fetch posts.");

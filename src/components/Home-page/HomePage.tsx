@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import PostsList from "../Posts-list/PostsList";
+import { Link } from "react-router";
 
 const HomePage = () => {
   return (
@@ -23,7 +24,10 @@ const HomePage = () => {
           <span className="font-bold">Post List</span>
         </p>
         <Button className="flex items-center gap-2 cursor-pointer bg-transparent text-muted-foreground font-medium hover:bg-gray-100">
-          <Plus /> Create a new Post
+          <Link to="/add-post" className="flex items-center gap-2">
+            {" "}
+            <Plus /> Create a new post
+          </Link>
         </Button>
       </header>
       <main className="">
@@ -53,7 +57,7 @@ const HomePage = () => {
             </Select>
           </div>
         </section>
-        <section className=" py-4 px-4 bg-gray-300">
+        <section className=" py-1 px-4 bg-gray-300">
           <PostsList />
         </section>
       </main>
