@@ -12,8 +12,11 @@ import {
 } from "../ui/select";
 import PostsList from "../Posts-list/PostsList";
 import { Link } from "react-router";
+import { useState } from "react";
 
 const HomePage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [author, setAuthor] = useState("all");
   return (
     <div className="bg-gray-300/60 rounded-xl ">
       <header className="flex items-center justify-between bg-white py-2 rounded-t-xl px-4">
@@ -36,10 +39,12 @@ const HomePage = () => {
             type="search"
             placeholder="Search for a post"
             className="bg-white"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="flex items-center gap-4">
             <h4>Author</h4>
-            <Select defaultValue="all">
+            <Select value={author} defaultValue="all" onValueChange={setAuthor}>
               <SelectTrigger className="w-45 bg-white shadow-0 border-0 outline-0">
                 <SelectValue placeholder="Author" />
               </SelectTrigger>
@@ -58,7 +63,7 @@ const HomePage = () => {
           </div>
         </section>
         <section className=" py-1 px-4 bg-gray-300">
-          <PostsList />
+          <PostsList searchTerm={searchTerm} author={author} />
         </section>
       </main>
     </div>

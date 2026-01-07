@@ -61,7 +61,9 @@ const AddPost = () => {
         toast.success("Post created successfully!");
         setIsSubmitting(false);
       } catch (error) {
-        setErrorMessage(error?.message);
+        const message =
+          error instanceof Error ? error.message : "An error occurred";
+        setErrorMessage(message);
         toast.error("Failed to create post.");
         setIsSubmitting(false);
       }

@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Post from "./Post";
-import type { PostType } from "@/types";
+import type { PostsListProps, PostType } from "@/types";
 import { Loader2, MoveLeft, MoveRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 
-const PostsList = () => {
+const PostsList = ({ searchTerm, author }: PostsListProps) => {
   // * Variables
-  const API_BASE_URL = `https://jsonplaceholder.typicode.com/posts`;
+  const API_BASE_URL = "https://jsonplaceholder.typicode.com/posts";
 
   // ^ States
-
   const [posts, setPosts] = useState<PostType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,23 +19,38 @@ const PostsList = () => {
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`${API_BASE_URL}?_page=${currentPage}`, {
-          method: "GET",
-        });
-        const data = await response.json();
-        console.log({ data });
+        const response = await fetch(
+          `${API_BASE_URL}?_page=${currentPage}&_limit=10`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+
+        const data: PostType[] = await response.json();
         setPosts(data);
-        // toast.success("Posts fetched successfully!");
       } catch (error) {
-        console.error("Error fetching posts:", error);
-        toast.error("Failed to fetch posts.");
+        console.error(error);
+        toast.error("Failed to fetch posts");
       } finally {
         setIsLoading(false);
       }
     };
-    console.log({ currentPage });
+
     fetchPosts();
-  }, [API_BASE_URL, currentPage]);
+  }, [currentPage]);
+
+  const filteredPosts = useMemo(() => {
+    return posts.filter((post) => {
+      const matchSearch =
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.body.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchAuthor = author === "all" || post.userId.toString() === author;
+
+      return matchSearch && matchAuthor;
+    });
+  }, [posts, searchTerm, author]);
 
   return (
     <div>
@@ -46,29 +60,31 @@ const PostsList = () => {
         </div>
       ) : (
         <ul>
-          {posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => <Post key={post.id} post={post} />)
+          ) : (
+            <p className="text-center py-6 text-muted-foreground">
+              No posts found
+            </p>
+          )}
         </ul>
       )}
 
       {/* Pagination */}
       {!isLoading && (
-        <div className="flex items-center justify-between py-2 ">
+        <div className="flex items-center justify-between py-2">
           <Button
-            variant={"destructive"}
-            className="cursor-pointer"
+            variant="destructive"
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => prev - 1)}
           >
-            {" "}
             <MoveLeft /> Previous
           </Button>
+
           <Button
-            variant={"secondary"}
-            className="cursor-pointer"
-            onClick={() => setCurrentPage((prev) => prev + 1)}
+            variant="secondary"
             disabled={currentPage === 10}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
           >
             Next <MoveRight />
           </Button>

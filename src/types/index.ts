@@ -6,4 +6,8 @@ export interface PostType {
   body: string;
 }
 
-
+// && Props for PostsList Component
+export type PostsListProps = {
+  searchTerm: string;
+  author: string;
+};
