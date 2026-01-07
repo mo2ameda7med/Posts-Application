@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import PostsList from "../Posts-list/PostsList";
 
 const HomePage = () => {
   return (
@@ -51,6 +52,9 @@ const HomePage = () => {
               </SelectContent>
             </Select>
           </div>
+        </section>
+        <section className=" py-4 px-4">
+          <PostsList />
         </section>
       </main>
     </div>
