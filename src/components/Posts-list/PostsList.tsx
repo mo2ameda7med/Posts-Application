@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Post from "./Post";
 import type { PostType } from "@/types";
-import { Loader2 } from "lucide-react";
+import { Loader2, MoveLeft, MoveRight } from "lucide-react";
 import toast from "react-hot-toast";
+import { Button } from "../ui/button";
 
 const PostsList = () => {
   // * Variables
@@ -12,13 +13,14 @@ const PostsList = () => {
 
   const [posts, setPosts] = useState<PostType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // && Effects
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(API_BASE_URL, {
+        const response = await fetch(`${API_BASE_URL}?_page=${currentPage}`, {
           method: "GET",
         });
         const data = await response.json();
@@ -32,15 +34,15 @@ const PostsList = () => {
         setIsLoading(false);
       }
     };
-
+    console.log({ currentPage });
     fetchPosts();
-  }, [API_BASE_URL]);
+  }, [API_BASE_URL, currentPage]);
 
   return (
-    <div>
+    <div className="">
       {isLoading ? (
         <div className="flex items-center justify-center py-10">
-          <Loader2 className="size-9 animate-spin text-muted-foreground" />
+          <Loader2 className="size-9 animate-spin text-blue-400" />
         </div>
       ) : (
         <ul>
@@ -49,6 +51,25 @@ const PostsList = () => {
           ))}
         </ul>
       )}
+
+      {/* Pagination */}
+      <div className="flex items-center justify-between py-2 ">
+        <Button
+          variant={"destructive"}
+          className="cursor-pointer"
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          {" "}
+          <MoveLeft /> Previous
+        </Button>
+        <Button
+          variant={"secondary"}
+          className="cursor-pointer"
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Next <MoveRight />
+        </Button>
+      </div>
     </div>
   );
 };
