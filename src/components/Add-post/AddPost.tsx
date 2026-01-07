@@ -46,15 +46,28 @@ const AddPost = () => {
 
   const handleCreatePost = (data: PostDataType) => {
     console.log({ data });
+
+    if (!data.title.trim() || !data.body.trim()) {
+      setErrorMessage("Title and body cannot be empty or contain only spaces");
+      toast.error("Title and body cannot be empty or contain only spaces");
+      return;
+    }
+
     const createPost = async () => {
+      setErrorMessage(null);
       try {
         setIsSubmitting(true);
+        const trimmedData = {
+          ...data,
+          title: data.title.trim(),
+          body: data.body.trim(),
+        };
         const response = await fetch(API_BASE_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(trimmedData),
         });
         const result = await response.json();
         console.log("Post created successfully:", result);
